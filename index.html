@@ -126,7 +126,7 @@
 <div class="section" id="s1">
   <h2>一、投资并购全生命周期 — 需求全景</h2>
   <div class="flow">
-    项目筛选 <span class="arrow">→</span> 立项审批 <span class="arrow">→</span> 智能尽调 <span class="arrow">→</span> 估值与交易 <span class="arrow">→</span> 决策审批 <span class="arrow">→</span> 投资统计 <span class="arrow">→</span> 投后管理 <span class="arrow">→</span> 退出/后评价
+    项目筛选 <span class="arrow">→</span> 立项审批 <span class="arrow">→</span> 智能尽调 <span class="arrow">→</span> 估值与交易 <span class="arrow">→</span> 决策审批 <span class="arrow">→</span> 投资计划与统计 <span class="arrow">→</span> 投后管理 <span class="arrow">→</span> 退出/后评价
     <div class="flow-note">↑ 智能报告生成 &nbsp;&nbsp;↑ 模板定制化贯穿全程 &nbsp;&nbsp;↑ 会议纪要自动生成</div>
   </div>
 
@@ -137,7 +137,7 @@
       <tr><td><strong>② 智能尽调（合并）</strong> <span class="tag tag-star">⭐核心</span></td><td>可研/商业/法律/财务四合一尽调平台</td><td>沈琦-审核引擎、后评价诉求</td></tr>
       <tr><td><strong>③ 估值与交易决策</strong></td><td>自动测算估值指标、交易结构辅助设计</td><td>沈琦-财务引擎、后评价-财务测算</td></tr>
       <tr><td><strong>④ 审批流程自动化</strong></td><td>智能路径判断、分级审批、合规检查</td><td>沈琦-审核流程、投资计划模块</td></tr>
-      <tr><td><strong>⑤ 投资统计与计划执行</strong></td><td>月度填报、投资完成率、计划调整预警、自动催报</td><td>沈琦-投资统计板块</td></tr>
+      <tr><td><strong>⑤ 投资计划与统计</strong></td><td>投资计划报送、年度完成情况报告、投资统计、计划调整、自动催报</td><td>沈琦-投资计划+投资统计板块</td></tr>
       <tr><td><strong>⑥ 投后管理与监控</strong></td><td>经营数据跟踪、风险预警、定期再研判</td><td>雪娜-后评价诉求</td></tr>
       <tr><td><strong>⑦ 退出与后评价</strong></td><td>退出方案评估、后评价全流程、结构化Excel导出、聚类分析</td><td>雪娜-后评价诉求+表格模板</td></tr>
       <tr><td><strong>⑧ 市值管理</strong></td><td>政策监测/股东管理/舆情/IR/ESG/合规</td><td>史玮-市值管理6大模块</td></tr>
@@ -241,18 +241,62 @@
   </table>
 
   <!-- ⑤ -->
-  <h3>阶段⑤：投资统计与计划执行 <span class="tag tag-star">⭐独立模块</span></h3>
-  <div class="pain"><strong>核心痛点：</strong>投资统计不是投后工作，而是从投前计划编制开始、贯穿项目执行全过程的独立工作流。计划内项目每月需填报大量材料、计算完成率，手工操作繁琐、催报困难。</div>
+  <h3>阶段⑤：投资计划与统计 <span class="tag tag-star">⭐独立模块</span></h3>
+  <div class="pain"><strong>核心痛点：</strong>投资计划与统计不是投后工作，而是从年初计划编制开始、贯穿项目执行全过程的独立工作流。涉及年初计划报送、年度完成情况报告、月度统计、计划调整、半年自查，手工操作繁琐、催报困难。</div>
+
+  <h4>5.1 年初投资计划报送</h4>
   <table>
     <thead><tr><th>功能点</th><th>具体要求</th></tr></thead>
     <tbody>
-      <tr><td>月度投资统计报送</td><td>每月固定时间自动推送任务，附带4张表单（概况明细/国资版统计/国资版报告/发改版统计），部分数据从年初计划自动带入，支持Excel批量导入</td></tr>
-      <tr><td>自动计算完成率</td><td>系统自动计算：当月完成额、累计完成额、完成率、与计划偏差率</td></tr>
+      <tr><td>年度投资计划编制</td><td>每年1月初系统自动推送“年度投资计划填报任务”，区分国资版和发改版两套模板（字段映射可配置，一次填报自动生成两个版本）</td></tr>
+      <tr><td>项目级填报</td><td>所属公司在线填报项目级计划（项目名称、类型、总投资、年度计划投资额、资金来源、建设周期、预期收益等）</td></tr>
+      <tr><td>同比/环比校验</td><td>系统自动与上年计划、本年完成情况进行同比/环比对比，异常波动自动标黄提示</td></tr>
+      <tr><td>审批与归档</td><td>集团分管领导审批→盖章件及决策文件自动归档</td></tr>
+      <tr><td><strong>产出文件</strong></td><td><strong>自动生成《集团年度投资计划报告》（含文字综述+表格+图表）、《集团投资项目月度分解表》、《集团投资项目情况表》（每个项目详细卡片），一键导出国资版/发改版格式</strong></td></tr>
+    </tbody>
+  </table>
+
+  <h4>5.2 年度投资完成情况报告（上一年度）</h4>
+  <table>
+    <thead><tr><th>功能点</th><th>具体要求</th></tr></thead>
+    <tbody>
+      <tr><td>填报任务推送</td><td>每年11月底系统自动向各所属公司推送“年度投资完成情况报告填报任务”，附标准模板（含报告框架、必填数据项、盖章页）</td></tr>
+      <tr><td>在线填报与审批</td><td>所属公司在线填写并上传盖章件→系统自动流转至公司领导—集团分管领导审批→审批通过后自动归档至“投资计划库”，同时推送投资管理部备案</td></tr>
+      <tr><td>AI草稿生成</td><td>系统自动抓取各公司全年月度投资数据，初步生成完成情况报告草稿（含年度投资总额、完成率、与计划对比等核心指标），所属公司只需核对补充</td></tr>
+      <tr><td>超时催办</td><td>超时未报送，系统自动逐级催办（先提醒填报人→再提醒分管领导→最后抄送集团投资部）</td></tr>
+      <tr><td><strong>产出文件</strong></td><td><strong>系统自动汇总各所属公司报告核心数据，生成《集团年度投资完成情况汇总报告（初稿）》，附各公司完成率对比表、偏差分析图</strong></td></tr>
+    </tbody>
+  </table>
+
+  <h4>5.3 月度/季度投资统计</h4>
+  <table>
+    <thead><tr><th>功能点</th><th>具体要求</th></tr></thead>
+    <tbody>
+      <tr><td>月度统计报送</td><td>每月固定时间自动推送任务，附带4张表单（概况明细/国资版统计/国资版报告/发改版统计），部分数据从年初计划自动带入，支持Excel批量导入</td></tr>
+      <tr><td>自动计算</td><td>系统自动计算：当月完成额、累计完成额、完成率、与计划偏差率</td></tr>
       <tr><td>数据异常预警</td><td>完成率＜时间进度50%或＞150%时自动标黄，要求填写原因</td></tr>
-      <tr><td>自动催报</td><td>未按时报送的公司，系统自动@填报人和分管领导，抄送投资部（与沈琦催办机制一致）</td></tr>
-      <tr><td>季度投资报告</td><td>季度末额外推送《季度投资完成情况报告》填报任务（含盖章件上传）</td></tr>
-      <tr><td>半年自查报告</td><td>6月底/12月底推送半年投资专项自查任务，自动调取可研预测收益与实际对比，偏差>20%标红</td></tr>
-      <tr><td>投资计划动态调整预警</td><td>变化幅度超10%或≥1亿元自动触发标红+弹窗+锁止，自动生成调整表/分解表/调整说明</td></tr>
+      <tr><td>自动催报</td><td>未按时报送的公司，系统自动@填报人和分管领导，抄送投资部</td></tr>
+      <tr><td>季度报告</td><td>季度末额外推送《季度投资完成情况报告》填报任务（含盖章件上传）</td></tr>
+      <tr><td><strong>产出文件</strong></td><td><strong>自动汇总生成《集团月度投资完成情况分析》、国资版和发改版两张统计表；《集团季度投资完成情况报告》（附图表）</strong></td></tr>
+    </tbody>
+  </table>
+
+  <h4>5.4 投资计划动态调整</h4>
+  <table>
+    <thead><tr><th>功能点</th><th>具体要求</th></tr></thead>
+    <tbody>
+      <tr><td>触发规则</td><td>年度投资计划金额变化幅度超过10%，或调整金额≥1亿元</td></tr>
+      <tr><td>系统行为</td><td>所属公司新增/变更项目投资额时，系统实时计算年度累计变化幅度，触发阈值后自动标红+弹窗提示+锁止项目</td></tr>
+      <tr><td>自动生成调整文件</td><td>自动生成《投资计划调整表》《调整月度分解表》《调整说明》（预填变化前后数据、变化幅度），推送至所属公司填报调整原因</td></tr>
+      <tr><td><strong>产出文件</strong></td><td><strong>《集团年内投资计划调整记录台账》（含调整时间、公司、项目、原金额、调整后金额、变化幅度、审批状态）</strong></td></tr>
+    </tbody>
+  </table>
+
+  <h4>5.5 半年自查与项目监控</h4>
+  <table>
+    <thead><tr><th>功能点</th><th>具体要求</th></tr></thead>
+    <tbody>
+      <tr><td>半年自查报告</td><td>6月底/12月底推送半年投资专项自查任务，自动调取可研预测收益与实际对比，偏差>20%标红，异常项目纳入“重点监控清单”</td></tr>
       <tr><td>年内已实施项目监控表</td><td>自动从审核模块抓取已决策项目，标注计划内/外、风险状态，一键导出用于经营分析会</td></tr>
     </tbody>
   </table>
@@ -498,8 +542,8 @@
     <thead><tr><th>需求来源</th><th>需求要点</th><th>v4覆盖位置</th><th>状态</th></tr></thead>
     <tbody>
       <tr><td rowspan="4"><strong>沈琦<br>投资计划</strong></td><td>年度完成情况报告</td><td>阶段⑤</td><td><span class="tag tag-check">✅</span></td></tr>
-      <tr><td>年度计划编制（国资版/发改版）</td><td>阶段①</td><td><span class="tag tag-check">✅</span></td></tr>
-      <tr><td>投资计划动态调整预警（10%/1亿元）</td><td>阶段①</td><td><span class="tag tag-check">✅</span></td></tr>
+      <tr><td>年度计划编制（国资版/发改版）</td><td>阶段⑤</td><td><span class="tag tag-check">✅</span></td></tr>
+      <tr><td>投资计划动态调整预警（10%/1亿元）</td><td>阶段⑤</td><td><span class="tag tag-check">✅</span></td></tr>
       <tr><td>年内已实施项目监控表</td><td>阶段⑤</td><td><span class="tag tag-check">✅</span></td></tr>
 
       <tr><td rowspan="4"><strong>沈琦<br>投资统计</strong></td><td>月度/季度投资统计报送</td><td>阶段⑤</td><td><span class="tag tag-check">✅</span></td></tr>
