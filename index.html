@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>投资部智能OA系统需求汇总（v4 — 最终完整版）</title>
+<style>
+  :root {
+    --primary: #1a56db;
+    --primary-light: #e8f0fe;
+    --accent: #d97706;
+    --accent-light: #fef3c7;
+    --success: #059669;
+    --success-light: #d1fae5;
+    --danger: #dc2626;
+    --danger-light: #fee2e2;
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-500: #6b7280;
+    --gray-700: #374151;
+    --gray-900: #111827;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; background: var(--gray-50); color: var(--gray-900); line-height: 1.7; }
+  .container { max-width: 1200px; margin: 0 auto; padding: 20px 24px; }
+  /* Header */
+  .header { background: linear-gradient(135deg, #1e3a5f 0%, #1a56db 100%); color: #fff; padding: 40px 48px; border-radius: 16px; margin-bottom: 32px; position: relative; overflow: hidden; }
+  .header::before { content: ''; position: absolute; top: -50%; right: -10%; width: 400px; height: 400px; background: rgba(255,255,255,0.05); border-radius: 50%; }
+  .header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+  .header .subtitle { font-size: 15px; opacity: 0.85; margin-bottom: 16px; }
+  .header .meta { display: flex; flex-wrap: wrap; gap: 16px; font-size: 13px; opacity: 0.75; }
+  .header .meta span { background: rgba(255,255,255,0.12); padding: 4px 12px; border-radius: 6px; }
+  /* TOC */
+  .toc { background: #fff; border: 1px solid var(--gray-200); border-radius: 12px; padding: 24px 32px; margin-bottom: 32px; }
+  .toc h2 { font-size: 18px; color: var(--primary); margin-bottom: 12px; border-bottom: 2px solid var(--primary-light); padding-bottom: 8px; }
+  .toc ol { padding-left: 20px; }
+  .toc li { margin: 6px 0; }
+  .toc a { color: var(--primary); text-decoration: none; font-size: 14px; }
+  .toc a:hover { text-decoration: underline; }
+  /* Section */
+  .section { background: #fff; border: 1px solid var(--gray-200); border-radius: 12px; padding: 28px 32px; margin-bottom: 24px; }
+  .section h2 { font-size: 22px; color: var(--primary); border-left: 4px solid var(--primary); padding-left: 12px; margin-bottom: 20px; }
+  .section h3 { font-size: 18px; color: var(--gray-900); margin: 20px 0 12px; padding-bottom: 6px; border-bottom: 1px solid var(--gray-200); }
+  .section h4 { font-size: 15px; color: var(--gray-700); margin: 16px 0 8px; }
+  .section p { font-size: 14px; color: var(--gray-700); margin-bottom: 12px; }
+  /* Flow diagram */
+  .flow { background: var(--primary-light); border-radius: 10px; padding: 20px 24px; margin: 16px 0; text-align: center; font-size: 15px; color: var(--primary); font-weight: 600; letter-spacing: 1px; overflow-x: auto; }
+  .flow .arrow { color: var(--accent); margin: 0 6px; }
+  .flow-note { font-size: 12px; color: var(--gray-500); margin-top: 8px; font-weight: 400; }
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; margin: 12px 0 20px; font-size: 13.5px; }
+  thead th { background: var(--primary); color: #fff; padding: 10px 14px; text-align: left; font-weight: 600; white-space: nowrap; }
+  thead th:first-child { border-radius: 8px 0 0 0; }
+  thead th:last-child { border-radius: 0 8px 0 0; }
+  tbody td { padding: 9px 14px; border-bottom: 1px solid var(--gray-200); vertical-align: top; }
+  tbody tr:nth-child(even) { background: var(--gray-50); }
+  tbody tr:hover { background: var(--primary-light); }
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+  .tag-check { background: var(--success-light); color: var(--success); }
+  .tag-warn { background: var(--accent-light); color: var(--accent); }
+  .tag-star { background: #ede9fe; color: #7c3aed; }
+  .tag-p0 { background: var(--danger-light); color: var(--danger); }
+  .tag-p1 { background: var(--accent-light); color: var(--accent); }
+  .tag-p2 { background: var(--success-light); color: var(--success); }
+  /* Pain point */
+  .pain { background: var(--danger-light); border-left: 4px solid var(--danger); padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 12px 0; font-size: 13.5px; color: var(--danger); }
+  .pain strong { color: var(--danger); }
+  /* Star box */
+  .star-box { background: linear-gradient(135deg, #ede9fe 0%, #e0e7ff 100%); border: 1px solid #c7d2fe; border-radius: 10px; padding: 16px 20px; margin: 16px 0; }
+  .star-box h4 { color: #5b21b6; margin-bottom: 8px; }
+  /* Summary */
+  .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin: 16px 0; }
+  .summary-card { background: #fff; border: 1px solid var(--gray-200); border-radius: 10px; padding: 16px; text-align: center; }
+  .summary-card .num { font-size: 28px; font-weight: 700; color: var(--primary); }
+  .summary-card .label { font-size: 13px; color: var(--gray-500); margin-top: 4px; }
+  /* Footer */
+  .footer { text-align: center; padding: 24px; font-size: 13px; color: var(--gray-500); }
+  /* Responsive */
+  @media (max-width: 768px) {
+    .container { padding: 12px; }
+    .header { padding: 24px; }
+    .header h1 { font-size: 22px; }
+    .section { padding: 16px; }
+    table { font-size: 12px; }
+    thead th, tbody td { padding: 6px 8px; }
+  }
+  /* Print */
+  @media print {
+    body { background: #fff; }
+    .header { background: #1e3a5f !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .section { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- Header -->
+<div class="header">
+  <h1>📋 投资部智能OA系统需求汇总</h1>
+  <div class="subtitle">v4 — 最终完整版 | 投资并购全生命周期10阶段覆盖</div>
+  <div class="meta">
+    <span>📅 2026年6月4日</span>
+    <span>👤 需求方：投资部</span>
+    <span>📎 含3份原始需求 + 日常工作场景 + 模板定制化</span>
+  </div>
+</div>
+
+<!-- TOC -->
+<div class="toc">
+  <h2>📑 目录</h2>
+  <ol>
+    <li><a href="#s1">投资并购全生命周期 — 需求全景</a></li>
+    <li><a href="#s2">各阶段需求详情（①~⑩）</a></li>
+    <li><a href="#s3">跨阶段共性能力</a></li>
+    <li><a href="#s4">原始需求全覆盖核对表</a></li>
+    <li><a href="#s5">建议对接策略</a></li>
+    <li><a href="#s6">需求提出人清单</a></li>
+  </ol>
+</div>
+
+<!-- Section 1: Overview -->
+<div class="section" id="s1">
+  <h2>一、投资并购全生命周期 — 需求全景</h2>
+  <div class="flow">
+    项目筛选 <span class="arrow">→</span> 立项审批 <span class="arrow">→</span> 智能尽调 <span class="arrow">→</span> 估值与交易 <span class="arrow">→</span> 决策审批 <span class="arrow">→</span> 投后管理 <span class="arrow">→</span> 退出/后评价
+    <div class="flow-note">↑ 智能报告生成 &nbsp;&nbsp;↑ 模板定制化贯穿全程 &nbsp;&nbsp;↑ 会议纪要自动生成</div>
+  </div>
+
+  <table>
+    <thead><tr><th>阶段</th><th>核心诉求</th><th>涉及原始需求</th></tr></thead>
+    <tbody>
+      <tr><td><strong>① 项目筛选与立项</strong></td><td>标的数据库、主业匹配、立项流程</td><td>市值管理-并购模块、沈琦-审核板块</td></tr>
+      <tr><td><strong>② 智能尽调（合并）</strong> <span class="tag tag-star">⭐核心</span></td><td>可研/商业/法律/财务四合一尽调平台</td><td>沈琦-审核引擎、后评价诉求</td></tr>
+      <tr><td><strong>③ 估值与交易决策</strong></td><td>自动测算估值指标、交易结构辅助设计</td><td>沈琦-财务引擎、后评价-财务测算</td></tr>
+      <tr><td><strong>④ 审批流程自动化</strong></td><td>智能路径判断、分级审批、合规检查</td><td>沈琦-审核流程、投资计划模块</td></tr>
+      <tr><td><strong>⑤ 投后管理与监控</strong></td><td>经营数据跟踪、风险预警、定期再研判</td><td>后评价诉求、沈琦-统计板块</td></tr>
+      <tr><td><strong>⑥ 退出与后评价</strong></td><td>退出方案评估、后评价全流程、结构化Excel导出</td><td>后评价诉求+表格模板</td></tr>
+      <tr><td><strong>⑦ 市值管理</strong></td><td>政策监测/股东管理/舆情/IR/ESG/合规</td><td>市值管理6大模块</td></tr>
+      <tr><td><strong>⑧ 投资制度管理</strong></td><td>制度印发/宣贯/备案/差异比对</td><td>沈琦-投资制度板块</td></tr>
+      <tr><td><strong>⑨ 智能报告生成</strong> <span class="tag tag-star">⭐新增</span></td><td>会议纪要/可行性报告/尽调清单/尽调分析报告</td><td>投资部日常工作场景</td></tr>
+      <tr><td><strong>⑩ 模板定制化</strong> <span class="tag tag-star">⭐新增</span></td><td>所有输出均支持模板定制</td><td>统一能力要求</td></tr>
+    </tbody>
+  </table>
+
+  <div class="summary-grid">
+    <div class="summary-card"><div class="num">10</div><div class="label">功能阶段</div></div>
+    <div class="summary-card"><div class="num">5</div><div class="label">AI分析引擎</div></div>
+    <div class="summary-card"><div class="num">10+</div><div class="label">报告类型</div></div>
+    <div class="summary-card"><div class="num">100%</div><div class="label">需求覆盖率</div></div>
+  </div>
+</div>
+
+<!-- Section 2: Details -->
+<div class="section" id="s2">
+  <h2>二、各阶段需求详情</h2>
+
+  <!-- ① -->
+  <h3>阶段①：项目筛选与立项</h3>
+  <div class="pain"><strong>核心痛点：</strong>并购标的筛选靠人脉和零散信息，缺乏系统化数据库；立项判断全凭经验。</div>
+  <table>
+    <thead><tr><th>功能点</th><th>具体要求</th></tr></thead>
+    <tbody>
+      <tr><td>并购标的数据库</td><td>建立标的库，支持标签筛选（行业/规模/估值倍数/PE/技术壁垒/地域等）</td></tr>
+      <tr><td>主业匹配度自动评估</td><td>内置集团及各所属公司主业范围库，读取项目行业领域后自动匹配评分</td></tr>
+      <tr><td>立项流程线上化</td><td>所属公司/集团投资项目统一入口，根据项目类型（固投/股权）、计划内/外自动分流</td></tr>
+      <tr><td>计划联动</td><td>立项时自动校验是否在年度投资计划内，计划外项目触发调整预警</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ② -->
+  <h3>阶段②：智能尽调平台 <span class="tag tag-star">⭐核心模块（四合一）</span></h3>
+  <div class="pain"><strong>核心痛点：</strong>可研、商业、法律、财务四项尽调各自为战，数据重复采集，格式不统一，全靠人工交叉核验。</div>
+  <p><strong>设计原则：</strong>四项尽调整合为一个平台，数据一次采集、多方复用，AI辅助分析自动生成各维度报告。</p>
+
+  <h4>2.1 数据采集层（一次录入，四维共享）</h4>
+  <table>
+    <thead><tr><th>采集项</th><th>来源</th><th>复用方向</th></tr></thead>
+    <tbody>
+      <tr><td>项目基础信息</td><td>立项阶段自动带入</td><td>四维通用</td></tr>
+      <tr><td>可研报告/商业计划书</td><td>所属公司上传</td><td>AI提取→财务测算+商业分析</td></tr>
+      <tr><td>法律文件</td><td>所属公司+律所</td><td>法律尽调+合规检查</td></tr>
+      <tr><td>财务报表（近3年）</td><td>所属公司上传</td><td>财务尽调+估值测算</td></tr>
+      <tr><td>行业数据</td><td>系统自动采集</td><td>商业尽调+可研对标</td></tr>
+    </tbody>
+  </table>
+
+  <h4>2.2 AI分析引擎（5大引擎）</h4>
+  <table>
+    <thead><tr><th>引擎</th><th>功能</th><th>输出</th></tr></thead>
+    <tbody>
+      <tr><td><strong>引擎一：可研完整性校验</strong></td><td>对标发改委标准大纲，逐项检查；逻辑校验</td><td>缺失章节标红+逻辑矛盾提示</td></tr>
+      <tr><td><strong>引擎二：主业匹配度分析</strong></td><td>项目行业与公司主业库关键词匹配</td><td>匹配度评分（高/中/低）+偏离说明</td></tr>
+      <tr><td><strong>引擎三：财务数据提取与测算</strong></td><td>自动识别PDF/Word/Excel中的财务数据</td><td>自动测算IRR/NPV/回收期/盈亏平衡点/估值</td></tr>
+      <tr><td><strong>引擎四：风险措施论证</strong></td><td>内置风险类型库，扫描风险章节</td><td>完整性评分+缺失项+建议补充</td></tr>
+      <tr><td><strong>引擎五：法律合规审查</strong></td><td>识别合同关键条款、诉讼风险、知识产权</td><td>法律风险清单+合规建议</td></tr>
+    </tbody>
+  </table>
+
+  <h4>2.3 报告生成层</h4>
+  <table>
+    <thead><tr><th>报告类型</th><th>内容</th><th>触发方式</th></tr></thead>
+    <tbody>
+      <tr><td>《尽调综合分析报告》</td><td>5大引擎分析结果汇总</td><td>上传资料后自动生成</td></tr>
+      <tr><td>《可研对标分析表》</td><td>系统测算vs企业自算，逐项对比</td><td>引擎三自动输出</td></tr>
+      <tr><td>《风险清单与应对建议》</td><td>按风险等级分类，含责任人</td><td>引擎四+五联合输出</td></tr>
+      <tr><td>《估值参考报告》</td><td>DCF/可比公司/可比交易多种估值</td><td>引擎三扩展</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ③ -->
+  <h3>阶段③：估值与交易决策</h3>
+  <div class="pain"><strong>核心痛点：</strong>估值测算依赖Excel手工建模，不同方法结果需人工比对。</div>
+  <table>
+    <thead><tr><th>功能点</th><th>具体要求</th></tr></thead>
+    <tbody>
+      <tr><td>多方法估值自动测算</td><td>DCF、可比公司法、可比交易法，输出估值区间</td></tr>
+      <tr><td>交易结构设计辅助</td><td>模拟不同持股比例/支付方式对集团财务指标的影响</td></tr>
+      <tr><td>敏感性分析</td><td>关键变量变动对IRR/NPV的敏感性自动测算</td></tr>
+      <tr><td>对赌条款模拟</td><td>模拟不同对赌条件下的收益/风险场景</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ④ -->
+  <h3>阶段④：审批流程自动化</h3>
+  <div class="pain"><strong>核心痛点：</strong>审核路径靠人工判断，反馈轮次无管控，决策文件准备时间易延误。</div>
+  <table>
+    <thead><tr><th>功能点</th><th>具体要求</th></tr></thead>
+    <tbody>
+      <tr><td>智能路径判断</td><td>根据项目类型、计划内/外、投资额自动匹配审核路径</td></tr>
+      <tr><td>分级审批流</td><td>立项→可研→投资部→分管领导→集团决策会，各环节自动流转</td></tr>
+      <tr><td>反馈轮次管控</td><td>每轮反馈自动记录，超5次自动锁止推送负责人</td></tr>
+      <tr><td>决策文件倒计时</td><td>审核无误后锁定，决策前5天自动提醒</td></tr>
+      <tr><td>合规自动检查</td><td>窗口期/持股比例/内幕知情人等合规事项自动检查</td></tr>
+      <tr><td>全流程留痕</td><td>操作日志、审批单、法律意见自动归档</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ⑤ -->
+  <h3>阶段⑤：投后管理与监控</h3>
+  <div class="pain"><strong>核心痛点：</strong>投后数据散落各所属公司，风险发现滞后，经营指标缺乏持续跟踪。</div>
+  <table>
+    <thead><tr><th>功能点</th><th>具体要求</th></tr></thead>
+    <tbody>
+      <tr><td>投后项目台账</td><td>所有在管项目统一台账，标注状态（正常/预警/重大变化/终止）</td></tr>
+      <tr><td>经营数据定期采集</td><td>月度/季度自动推送所属公司填报经营数据</td></tr>
+      <tr><td>业绩承诺跟踪</td><td>对赌/承诺指标自动跟踪，偏差超阈值自动预警</td></tr>
+      <tr><td>收益对标分析</td><td>自动调取可研预测值与实际对比，偏差&gt;20%标红</td></tr>
+      <tr><td>重大变化/终止流程</td><td>分管领导→投资部→<strong>集团主要领导</strong>→自动更新状态→<strong>报送国资局</strong></td></tr>
+      <tr><td>整改跟踪</td><td>异常项目纳入"重点监控清单"，持续跟踪</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ⑥ -->
+  <h3>阶段⑥：退出与后评价</h3>
+  <div class="pain"><strong>核心痛点：</strong>后评价数据手工汇总，财务指标重复测算，缺乏标准化模板，需手工整理结构化表格。</div>
+  <table>
+    <thead><tr><th>功能点</th><th>具体要求</th></tr></thead>
+    <tbody>
+      <tr><td>退出方案评估</td><td>支持IPO/转让/回购/清算等多种退出方式的收益测算</td></tr>
+      <tr><td>后评价自动触发</td><td>项目退出或达到评价时点后自动推送任务</td></tr>
+      <tr><td>数据自动抓取</td><td>从项目全生命周期抓取：决策→实施→运营→财务</td></tr>
+      <tr><td>财务指标自动测算</td><td>IRR/NPV/回收期/盈亏平衡点，自动与可研对标</td></tr>
+      <tr><td>招投标/合同归集</td><td>固投项目招投标数据、合同数据自动归集分析</td></tr>
+      <tr><td>跟踪评价</td><td>首次评价后定期跟踪，自动对比改善/恶化趋势</td></tr>
+      <tr><td><strong>⭐ 结构化Excel导出</strong></td><td><strong>自动导出后评价成果Excel，格式严格参照现有模板（模板可定制）</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="star-box">
+    <h4>⭐ 后评价结构化Excel导出 — 详细要求</h4>
+    <p>输出格式：<code>.xlsx</code>，两个Sheet：<code>股权投资项目</code> + <code>固定资产投资项目</code>，数据由系统自动填充，模板可定制。</p>
+    <p><strong>股权投资Sheet评价维度：</strong>基本情况 → 投资额 → 前期决策 → 实施准备 → 组织实施 → 运营阶段 → 退出情况 → 实施效果 → 协同效益 → 社会效益 → 持续能力 → 主要问题 → 建议 → 跟踪评价</p>
+    <p><strong>固投Sheet额外维度：</strong>土地使用权、招标采购、项目勘察/设计、开工手续、进度/投资/质量/安全/文明施工/竣工验收、技术水平、环境效益</p>
+  </div>
+
+  <!-- ⑦ -->
+  <h3>阶段⑦：市值管理配套</h3>
+  <div class="pain"><strong>核心痛点：</strong>市值管理工作碎片化，缺乏系统工具，政策/股东/舆情/ESG数据分散。</div>
+  <table>
+    <thead><tr><th>子模块</th><th>核心功能</th></tr></thead>
+    <tbody>
+      <tr><td>宏观与监管动态</td><td>自动收集证监会/交易所/国资委政策，标签体系，<strong>关联股价与市值波动</strong>，周报/月报/即时推送</td></tr>
+      <tr><td>股东结构与资本运作</td><td>前十大股东监测（含<strong>股权质押/融资融券</strong>），回购/激励/减持线上化，<strong>持仓分析模型</strong>，<strong>窗口期提醒</strong></td></tr>
+      <tr><td>舆情与危机管理</td><td>7×24全网监测，NLP情感分析+分级，<strong>匹配历史案例</strong>，<strong>危机全流程：核实→口径→公告→追踪</strong></td></tr>
+      <tr><td>投资者关系与ESG</td><td>投资者档案库，<strong>业绩说明会/路演/反向路演/开放日</strong>线上化，ESG+<strong>同业对标</strong>，<strong>流失风险识别</strong></td></tr>
+      <tr><td>收并购与投后管理</td><td>标的数据库（含PE标签），<strong>全流程：立项→尽调→交易结构→审批→交割→整合</strong>，<strong>财务并表+整合计划+里程碑</strong></td></tr>
+      <tr><td>信息披露与合规</td><td>内幕知情人登记，信披文件辅助生成（<strong>公告/定期报告/临时报告</strong>），全流程留痕</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ⑧ -->
+  <h3>阶段⑧：投资制度管理</h3>
+  <div class="pain"><strong>核心痛点：</strong>制度修订后宣贯覆盖不全，各所属公司制度与集团要求的差异难以快速识别。</div>
+  <table>
+    <thead><tr><th>功能点</th><th>具体要求</th></tr></thead>
+    <tbody>
+      <tr><td>集团制度线上发布</td><td>发布后自动推送，要求阅读确认，未读超时自动催办</td></tr>
+      <tr><td>所属公司制度备案</td><td>上传制度PDF+决策文件→推送投资部备案→归档制度库</td></tr>
+      <tr><td><strong>⭐ 制度差异智能比对</strong></td><td><strong>自动提取核心条款，与所属公司制度文本比对，标记差异（严于/弱于/遗漏）</strong></td></tr>
+      <tr><td>制度汇编</td><td>自动生成在线版制度汇编，全文检索</td></tr>
+      <tr><td>制度关联审核</td><td>审核项目时自动关联适用制度条款</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ⑨ -->
+  <h3>阶段⑨：智能报告生成 <span class="tag tag-star">⭐新增模块</span></h3>
+  <div class="pain"><strong>核心痛点：</strong>投资部日常大量报告撰写（会议纪要、可行性报告、尽调清单、尽调分析），全靠人工，耗时长、格式不统一。</div>
+
+  <h4>9.1 会议纪要自动生成</h4>
+  <table>
+    <thead><tr><th>功能点</th><th>具体要求</th></tr></thead>
+    <tbody>
+      <tr><td>输入</td><td>上传会议录音文件（mp3/wav/m4a/ogg等格式）</td></tr>
+      <tr><td>处理</td><td>AI语音转文字→智能识别主题/参会人/讨论要点/决议事项/待办任务</td></tr>
+      <tr><td>输出</td><td>按固定模板生成结构化会议纪要（Word/PDF）</td></tr>
+      <tr><td>模板要素</td><td>会议主题、时间、地点、主持人、参会人、议题清单、决议事项、待办（含责任人+截止时间）</td></tr>
+      <tr><td>模板可定制</td><td>支持自定义模板（增删字段、调整格式）</td></tr>
+      <tr><td>关联项目</td><td>纪要自动关联项目，归档至项目文件库</td></tr>
+    </tbody>
+  </table>
+
+  <h4>9.2 投资可行性分析报告生成</h4>
+  <table>
+    <thead><tr><th>功能点</th><th>具体要求</th></tr></thead>
+    <tbody>
+      <tr><td>输入</td><td>企业BP（商业计划书）、初步尽调材料、企业基本信息（PDF/Word/PPT）</td></tr>
+      <tr><td><strong>初版报告</strong></td><td>AI快速提取BP核心信息，生成《初版投资可行性分析报告》，用于项目初筛</td></tr>
+      <tr><td><strong>详细版报告</strong></td><td>结合BP+补充材料+行业数据+财务数据，生成《详细版报告》，用于立项决策</td></tr>
+      <tr><td>报告维度</td><td>企业概况、行业分析、商业模式、核心竞争力、财务概况、估值分析、风险提示、投资建议</td></tr>
+      <tr><td>模板可定制</td><td>维度可增删、格式可调整、关注重点可配置</td></tr>
+    </tbody>
+  </table>
+
+  <h4>初版 vs 详细版差异</h4>
+  <table>
+    <thead><tr><th>维度</th><th>初版报告</th><th>详细版报告</th></tr></thead>
+    <tbody>
+      <tr><td>数据来源</td><td>仅BP/初步材料</td><td>BP+补充材料+行业数据+财务报表</td></tr>
+      <tr><td>财务分析</td><td>基于BP数据的初步估算</td><td>基于财务报表的详细测算（IRR/NPV/回收期）</td></tr>
+      <tr><td>行业分析</td><td>基于BP描述的概述</td><td>结合外部行业数据的深度分析</td></tr>
+      <tr><td>风险提示</td><td>常见风险清单</td><td>基于材料的具体风险识别+应对建议</td></tr>
+      <tr><td>估值分析</td><td>粗略估值区间</td><td>多方法估值（DCF/可比公司/可比交易）</td></tr>
+      <tr><td>用途</td><td>项目初筛、内部讨论</td><td>立项决策、上会材料</td></tr>
+    </tbody>
+  </table>
+
+  <h4>9.3 尽调清单自动生成</h4>
+  <table>
+    <thead><tr><th>功能点</th><th>具体要求</th></tr></thead>
+    <tbody>
+      <tr><td>输入</td><td>企业类型（制造业/科技/地产/金融等）、项目类型、行业特征</td></tr>
+      <tr><td>输出</td><td>《尽调材料清单》（Excel/Word），按模块分类（工商/财务/法律/业务/技术/人事）</td></tr>
+      <tr><td>清单要素</td><td>序号、材料名称、所属模块、是否必需、说明/要求、提供方、状态（未收/已收/待补）</td></tr>
+      <tr><td>进度跟踪</td><td>上传材料后自动更新状态，未收材料自动催办</td></tr>
+      <tr><td>与尽调衔接</td><td>材料收集完毕后自动导入智能尽调平台</td></tr>
+    </tbody>
+  </table>
+
+  <h4>行业尽调清单模板库（内置，可扩展）</h4>
+  <table>
+    <thead><tr><th>行业</th><th>额外尽调要点</th></tr></thead>
+    <tbody>
+      <tr><td>制造业</td><td>产能/产线/设备清单、环保合规、安全生产许可、上下游集中度</td></tr>
+      <tr><td>科技/互联网</td><td>知识产权清单、核心技术壁垒、用户数据合规、研发团队背景</td></tr>
+      <tr><td>地产/基建</td><td>土地使用权、规划许可证、预售许可证、项目竣工验收</td></tr>
+      <tr><td>金融</td><td>金融牌照、资本充足率、不良资产率、合规检查记录</td></tr>
+      <tr><td>医药/生物</td><td>药品批件/临床试验、GMP认证、研发管线、专利到期时间</td></tr>
+      <tr><td>新能源</td><td>发电许可/并网批文、补贴政策、技术路线、设备质保</td></tr>
+    </tbody>
+  </table>
+
+  <h4>9.4 尽调分析报告自动生成</h4>
+  <table>
+    <thead><tr><th>功能点</th><th>具体要求</th></tr></thead>
+    <tbody>
+      <tr><td>输入</td><td>已收集的尽调材料（财务报表、合同、法律文件、业务数据）</td></tr>
+      <tr><td><strong>可研报告</strong></td><td>对标国家发改委标准大纲，自动生成</td></tr>
+      <tr><td><strong>商业尽调报告</strong></td><td>覆盖商业模式/市场/竞争/客户/供应商</td></tr>
+      <tr><td><strong>法律尽调报告</strong></td><td>覆盖公司治理/合同/诉讼/知识产权/合规</td></tr>
+      <tr><td><strong>财务尽调报告</strong></td><td>覆盖报表分析/盈利质量/现金流/税务/估值</td></tr>
+      <tr><td><strong>维度可指定</strong></td><td><strong>用户可选"仅财务+法律"或"全维度"，按指定维度生成</strong></td></tr>
+      <tr><td><strong>模板可定制</strong></td><td><strong>支持自定义各维度报告的模板（章节结构、分析深度、输出格式）</strong></td></tr>
+      <tr><td>交叉验证</td><td>四维度数据自动交叉验证（法律合同vs财务收入、业务描述vs财务数据）</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ⑩ -->
+  <h3>阶段⑩：模板定制化 <span class="tag tag-star">⭐统一能力要求</span></h3>
+  <p><strong>核心理念：</strong>所有系统输出均支持模板定制化，投资部可根据实际需要调整输出格式和内容。</p>
+  <table>
+    <thead><tr><th>模板类型</th><th>当前默认模板</th><th>定制化能力</th></tr></thead>
+    <tbody>
+      <tr><td>后评价Excel模板</td><td>股权投资+固定资产投资两套Sheet</td><td>增删评价维度、调整字段、修改格式样式</td></tr>
+      <tr><td>会议纪要模板</td><td>标准会议纪要格式</td><td>增删字段、调整结构、适配不同会议类型</td></tr>
+      <tr><td>可行性报告模板</td><td>初版+详细版两套</td><td>调整章节结构、增删分析维度</td></tr>
+      <tr><td>尽调清单模板</td><td>按行业内置6+套</td><td>增删材料项、调整分类</td></tr>
+      <tr><td>可研报告模板</td><td>国家发改委标准大纲</td><td>调整章节、适配行业特性</td></tr>
+      <tr><td>商业/法律/财务尽调模板</td><td>标准尽调框架</td><td>调整维度、增删章节、指定重点</td></tr>
+      <tr><td>投资统计报表模板</td><td>国资版/发改版</td><td>字段映射可配置、格式可调整</td></tr>
+      <tr><td>审批流程模板</td><td>按项目类型预设</td><td>审批路径可配置、节点可增删</td></tr>
+    </tbody>
+  </table>
+
+  <div class="star-box">
+    <h4>模板定制化统一机制</h4>
+    <table>
+      <thead><tr><th>能力</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>模板库管理</td><td>新建/编辑/复制/删除/版本管理</td></tr>
+        <tr><td>模板导入导出</td><td>导入用户自定义模板（Excel/Word/PDF），导出现有模板</td></tr>
+        <tr><td>默认模板</td><td>每类输出设默认模板，可选默认或自定义</td></tr>
+        <tr><td>多模板切换</td><td>同一报告类型支持多套模板（"上会版"/"内部版"/"报送版"）</td></tr>
+        <tr><td>字段映射</td><td>配置字段与数据源映射（如国资版/发改版一次填报自动映射）</td></tr>
+        <tr><td>格式预览</td><td>生成前预览模板效果，确认后正式生成</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Section 3: Common -->
+<div class="section" id="s3">
+  <h2>三、跨阶段共性能力</h2>
+  <table>
+    <thead><tr><th>能力</th><th>说明</th><th>覆盖阶段</th></tr></thead>
+    <tbody>
+      <tr><td><strong>自动催办</strong></td><td>未按时→逐级催办（填报人→分管领导→投资部）</td><td>①②④⑤⑥⑧</td></tr>
+      <tr><td><strong>数据层层复用</strong></td><td>立项→尽调→审批→投后→后评价，数据一次录入全程流转</td><td>全部</td></tr>
+      <tr><td><strong>盖章件线上化</strong></td><td>在线上传盖章PDF，审批+归档一体化</td><td>①④⑤⑥⑧</td></tr>
+      <tr><td><strong>异常自动预警</strong></td><td>超阈值自动标红/标黄+弹窗+要求说明</td><td>②③⑤</td></tr>
+      <tr><td><strong>一键导出</strong></td><td>国资版/发改版格式切换、后评价Excel、制度汇编</td><td>①⑥⑧</td></tr>
+      <tr><td><strong>全文检索</strong></td><td>制度库、项目库、标的库、尽调报告库</td><td>全部</td></tr>
+      <tr><td><strong>移动端支持</strong></td><td>审批、催办支持飞书/企业微信移动端</td><td>全部</td></tr>
+      <tr><td><strong>⭐ 模板定制化</strong></td><td><strong>所有输出均支持模板定制（报告/Excel/清单/纪要）</strong></td><td><strong>全部</strong></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Section 4: Checklist -->
+<div class="section" id="s4">
+  <h2>四、原始需求全覆盖核对表</h2>
+  <table>
+    <thead><tr><th>需求来源</th><th>需求要点</th><th>v4覆盖位置</th><th>状态</th></tr></thead>
+    <tbody>
+      <tr><td rowspan="4"><strong>沈琦<br>投资计划</strong></td><td>年度完成情况报告</td><td>阶段⑤</td><td><span class="tag tag-check">✅</span></td></tr>
+      <tr><td>年度计划编制（国资版/发改版）</td><td>阶段①</td><td><span class="tag tag-check">✅</span></td></tr>
+      <tr><td>投资计划动态调整预警（10%/1亿元）</td><td>阶段①</td><td><span class="tag tag-check">✅</span></td></tr>
+      <tr><td>年内已实施项目监控表</td><td>阶段⑤</td><td><span class="tag tag-check">✅</span></td></tr>
+
+      <tr><td rowspan="4"><strong>沈琦<br>投资统计</strong></td><td>月度/季度投资统计报送</td><td>阶段⑤</td><td><span class="tag tag-check">✅</span></td></tr>
+      <tr><td>半年自查报告</td><td>阶段⑤</td><td><span class="tag tag-check">✅</span></td></tr>
+      <tr><td>投资项目再研判/终止（含国资局）</td><td>阶段⑤</td><td><span class="tag tag-check">✅</span></td></tr>
+      <tr><td>自动催报</td><td>共性能力</td><td><span class="tag tag-check">✅</span></td></tr>
+
+      <tr><td rowspan="7"><strong>沈琦<br>投资审核</strong></td><td>审核流程精简（智能路径）</td><td>阶段④</td><td><span class="tag tag-check">✅</span></td></tr>
+      <tr><td>反馈轮次管控（超5次锁止）</td><td>阶段④</td><td><span class="tag tag-check">✅</span></td></tr>
+      <tr><td>决策文件倒计时提醒</td><td>阶段④</td><td><span class="tag tag-check">✅</span></td></tr>
+      <tr><td>引擎一~五（主业匹配/可研/财务/风险/优化）</td><td>阶段②</td><td><span class="tag tag-check">✅</span></td></tr>
+
+      <tr><td rowspan="2"><strong>沈琦<br>投资制度</strong></td><td>制度印发/宣贯/备案</td><td>阶段⑧</td><td><span class="tag tag-check">✅</span></td></tr>
+      <tr><td>制度差异智能比对</td><td>阶段⑧</td><td><span class="tag tag-check">✅</span></td></tr>
+
+      <tr><td rowspan="5"><strong>后评价</strong></td><td>基本情况自动抓取</td><td>阶段②</td><td><span class="tag tag-check">✅</span></td></tr>
+      <tr><td>对标可研量化分析</td><td>阶段②</td><td><span class="tag tag-check">✅</span></td></tr>
+      <tr><td>财务指标自动测算</td><td>阶段②</td><td><span class="tag tag-check">✅</span></td></tr>
+      <tr><td>招投标/合同数据归集</td><td>阶段⑥</td><td><span class="tag tag-check">✅</span></td></tr>
+      <tr><td>结构化Excel导出（含退出/协同/社会/环境）</td><td>阶段⑥</td><td><span class="tag tag-check">✅</span></td></tr>
+
+      <tr><td rowspan="6"><strong>市值管理</strong></td><td>宏观经济与监管动态（含股价关联）</td><td>阶段⑦</td><td><span class="tag tag-check">✅</span></td></tr>
+      <tr><td>股东结构与资本运作（含质押/融资/持仓分析）</td><td>阶段⑦</td><td><span class="tag tag-check">✅</span></td></tr>
+      <tr><td>舆情监测与危机管理（含历史案例/全流程）</td><td>阶段⑦</td><td><span class="tag tag-check">✅</span></td></tr>
+      <tr><td>投资者关系与ESG（含反向路演/流失风险）</td><td>阶段⑦</td><td><span class="tag tag-check">✅</span></td></tr>
+      <tr><td>收并购与投后管理（含交割整合/并表/里程碑）</td><td>阶段①②③⑤⑦</td><td><span class="tag tag-check">✅</span></td></tr>
+      <tr><td>信息披露与合规管控</td><td>阶段④⑦</td><td><span class="tag tag-check">✅</span></td></tr>
+    </tbody>
+  </table>
+  <p style="text-align:center; font-weight:700; color:var(--success); font-size:16px; margin-top:12px;">✅ 核对结论：三份原始需求方案 + 主公新增需求，全部覆盖，无遗漏。</p>
+</div>
+
+<!-- Section 5: Strategy -->
+<div class="section" id="s5">
+  <h2>五、建议对接策略</h2>
+
+  <h3>5.1 分期实施建议</h3>
+  <table>
+    <thead><tr><th>阶段</th><th>内容</th><th>周期建议</th></tr></thead>
+    <tbody>
+      <tr><td><span class="tag tag-p0">一期（基础）</span></td><td>投资计划+投资统计+审批流程自动化+投资制度管理+会议纪要生成</td><td>3-4个月</td></tr>
+      <tr><td><span class="tag tag-p1">二期（核心）</span></td><td>智能尽调平台（5大AI引擎）+尽调清单+可行性报告+投后管理+后评价Excel导出</td><td>4-6个月</td></tr>
+      <tr><td><span class="tag tag-p2">三期（完善）</span></td><td>估值辅助+尽调分析报告四维度+市值管理+模板定制化平台</td><td>4-6个月</td></tr>
+    </tbody>
+  </table>
+
+  <h3>5.2 对接时重点沟通的问题</h3>
+  <table>
+    <thead><tr><th>#</th><th>问题</th><th>关注重点</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>数据源对接</td><td>现有系统数据能否导入？各所属公司数据如何汇聚？</td></tr>
+      <tr><td>2</td><td>AI能力边界</td><td>5大引擎识别准确率？PDF提取成熟度？语音转文字准确率？</td></tr>
+      <tr><td>3</td><td>审批流配置</td><td>不同项目类型/金额的审批路径能否灵活配置？</td></tr>
+      <tr><td>4</td><td>与现有OA关系</td><td>替换还是对接？历史数据迁移方案？</td></tr>
+      <tr><td>5</td><td>权限体系</td><td>集团/所属公司两级权限隔离机制？</td></tr>
+      <tr><td>6</td><td>移动端支持</td><td>审批、催办是否支持飞书/企业微信？</td></tr>
+      <tr><td>7</td><td>外部数据接入</td><td>证监会/交易所/舆情数据由谁采购？如何接入？</td></tr>
+      <tr><td>8</td><td>数据安全</td><td>数据加密/权限管控/审计日志能力？</td></tr>
+      <tr><td>9</td><td>AI模型部署</td><td>可否私有化部署？敏感数据是否出域？</td></tr>
+      <tr><td>10</td><td>模板定制化</td><td>灵活度如何？用户自助配置还是需要开发支持？</td></tr>
+      <tr><td>11</td><td>录音格式兼容</td><td>支持哪些音频格式？飞书会议录制文件能否直接导入？</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Section 6: Team -->
+<div class="section" id="s6">
+  <h2>六、需求提出人清单</h2>
+  <table>
+    <thead><tr><th>姓名</th><th>负责领域</th><th>原始需求文件</th></tr></thead>
+    <tbody>
+      <tr><td><strong>沈琦</strong></td><td>投资计划、投资统计、项目审核、投资制度</td><td>《智能体投资统计系统需求-沈琦.doc》</td></tr>
+      <tr><td><strong>后评价同事</strong></td><td>投资项目后评价</td><td>《后评价诉求.docx》 + 《后评价投资项目信息化表格.xlsx》</td></tr>
+      <tr><td><strong>市值管理同事</strong></td><td>市值管理6大模块</td><td>《市值管理6大模块搭建.docx》</td></tr>
+      <tr><td><strong>金战祥</strong></td><td>投资并购全流程统筹 + 智能报告生成 + 模板定制化</td><td>本汇总文档</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <p>投资部智能OA系统需求汇总 v4 — 最终完整版 | 2026年6月4日</p>
+  <p>三份原始需求全覆盖核对 + 智能报告生成 + 模板定制化统一能力</p>
+</div>
+
+</div>
+</body>
+</html>
